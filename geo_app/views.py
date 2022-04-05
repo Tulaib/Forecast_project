@@ -40,7 +40,7 @@ def fetch_my_location(request):
 
 @api_view(["GET"])
 def fetch_weather_forecast(request):
-    query1 =user_Account.objects.get(username=request.user)
+    # query1 =user_Account.objects.get(username=request.user)
     # query1 =user_Account.objects.get(username='ali')
 
     try:
@@ -48,8 +48,8 @@ def fetch_weather_forecast(request):
         url = "https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&appid={}".format(g.lat,g.lng,api_key)
         response = urllib.request.urlopen(url)
         data = json.loads(response.read())
-        if query1:
-            query_updating = Geo_info.objects.get_or_create(user=query1.id,weather_forecast=data)
+        # if query1:
+        #     query_updating = Geo_info.objects.get_or_create(user=query1.id,weather_forecast=data)
         return Response(data)
     except Exception as e:
         return Response({"status":False,"message":e.__str__()})

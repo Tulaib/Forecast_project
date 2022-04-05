@@ -98,23 +98,6 @@ class LogoutView(APIView):
             return Response({"status": False, 'message': e.__str__()})
 
 
-@api_view(['post'])
-def forget_pass(request):
-    try:
-        user_email = request.data['email']
-        user = user_Account.objects.filter(email=user_email)
-        if user:
-            user = user[0].__dict__
-            try:
-                assert user['email'] == user_email
-                return Response({"status": True, "message": "Security question and answer verified"})
-            except Exception as e:
-                return Response({'status': False, 'message': str(e)})
-        else:
-            return Response({"status": False, 'message': "User with this email does not exist"})
-    except Exception as e:
-        return Response({"status": False, 'message': str(e)})
-
 
 @api_view(['post'])
 def reset_pass(request):
