@@ -46,6 +46,7 @@ def Register(request):
                 sent = False
                 pass
             token = Token.objects.get(user=account).key
+            print(token)
             return Response(
                 {"status": status.HTTP_201_CREATED, "message": "User Registered Successfully", 'token': token, "mail_sent": sent,
                  "data": serialied_data})

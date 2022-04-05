@@ -40,7 +40,9 @@ def fetch_my_location(request):
 
 @api_view(["GET"])
 def fetch_weather_forecast(request):
-    query1 =user_Account.objects.get(username="ali")
+    query1 =user_Account.objects.get(username=request.user)
+    # query1 =user_Account.objects.get(username='ali')
+
     try:
         api_key='25c15cb1a0eef3fce56e8aea3c631087'
         url = "https://api.openweathermap.org/data/2.5/onecall?lat={}&lon={}&appid={}".format(g.lat,g.lng,api_key)
