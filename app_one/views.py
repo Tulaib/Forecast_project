@@ -29,24 +29,19 @@ def Register(request):
     sent = False
     text = ''
     serializer = RegisterSerializer(data=request.data)
+    print('after Ser')
     try:
         if serializer.is_valid():
+            print('ser is valid')
+
             account = serializer.save(request)
-            subject = 'Verification Code'
-            message = ''.join(secrets.choice(string.digits) for i in range(6))
+            print("this is acc : {}".format(account))
             user = user_Account.objects.filter(username=account.username)
+            user.update(is_verified=True)
+            print('user: ',user)
             serialied_data = UserDataSerializer(user[0]).data
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [user_Account.objects.filter(username=account.username)[0].email]
-            try:
-                send_mail(subject, str(message), email_from, recipient_list)
-                sent = True
-            except Exception as e:
-                text = str(e)
-                sent = False
-                pass
+            print("serialied_data",serialied_data)
             token = Token.objects.get(user=account).key
-            print(token)
             return Response(
                 {"status": status.HTTP_201_CREATED, "message": "User Registered Successfully", 'token': token, "mail_sent": sent,
                  "data": serialied_data})

@@ -21,14 +21,16 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=obj.data.get('first_name'),
             last_name=obj.data.get('last_name'),
         )
-
+        print("in serializer\naccount: ",account)
         password = obj.data.get('password')
         password2 = obj.data.get('password2')
 
         if password != password2:
             raise serializers.ValidationError({'password': "passwords must match"})
         account.set_password(password)
+        print('password save')
         account.save()
+        print('acc saved')
         return account
 
 
